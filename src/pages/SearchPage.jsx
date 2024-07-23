@@ -32,7 +32,7 @@ const SearchPage = () => {
     );
     setStudents(results);
     setLoading(false);
-    if (results.length === 0) {
+    if (results?.length === 0) {
       setNoResults(true);
     }
   };
@@ -108,13 +108,13 @@ const SearchPage = () => {
         </Alert>
       )}
 
-      {!loading && students.length > 0 && (
+      {!loading && students?.length > 0 && (
         <Row className="mb-3 ms-1">Search Results: {students.length}</Row>
       )}
 
       <Row>
         {!loading &&
-          students.map((student) => (
+          students?.map((student) => (
             <Col key={student.id} xs={12} sm={6} lg={4} className="mb-3">
               <StudentCard student={student} />
             </Col>
