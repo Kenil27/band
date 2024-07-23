@@ -20,7 +20,7 @@ export const searchStudents = async (name, team, instrument, age) => {
     if (instrument) {
       conditions.push(where("instrument", "==", instrument));
     }
-    if (birthYear) {
+    if (age) {
       conditions.push(where("birthYear", "==", birthYear.toString()));
     }
 
