@@ -25,7 +25,7 @@ const SearchPage = () => {
     setLoading(true);
     setNoResults(false);
     const results = await searchStudents(
-      searchTerm,
+      searchTerm.toLowerCase(),
       teamFilter === "all teams" ? "" : teamFilter,
       instrumentFilter === "all instruments" ? "" : instrumentFilter,
       ageFilter
