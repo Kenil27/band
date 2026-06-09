@@ -49,7 +49,7 @@ const SearchPage = () => {
               onChange={(e) => setSearchTerm(e.target.value)}
             />
           </Col>
-          <Col xs={12} md={6} lg={3} className="mb-3">
+          <Col xs={12} md={6} lg={2} className="mb-3">
             <Form.Control
               type="number"
               placeholder="Filter by age"
@@ -89,8 +89,16 @@ const SearchPage = () => {
               <Dropdown.Item eventKey="sankalp">Sankalp</Dropdown.Item>
             </DropdownButton>
           </Col>
-          <Col xs={12} className="d-flex justify-content-end">
-            <Button onClick={handleSearch} variant="primary">
+          <Col
+            xs={12}
+            lg={1}
+            className="mb-3 d-flex justify-content-end justify-content-lg-start"
+          >
+            <Button
+              onClick={handleSearch}
+              variant="primary"
+              className="w-100"
+            >
               Search
             </Button>
           </Col>
