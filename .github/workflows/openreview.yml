@@ -1,0 +1,45 @@
+name: OpenReview
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened, ready_for_review]
+
+permissions:
+  contents: read
+  pull-requests: write
+
+concurrency:
+  group: openreview-${{ github.event.pull_request.number }}
+  cancel-in-progress: true
+
+jobs:
+  review:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 10
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: pnpm
+          cache-dependency-path: /tmp/openreview/pnpm-lock.yaml
+
+      - name: Clone & build OpenReview
+        run: |
+          git clone --depth 1 https://github.com/deuex-solutions/OpenReview /tmp/openreview
+          cd /tmp/openreview
+          pnpm install --frozen-lockfile
+          pnpm build
+
+      - name: Review this PR
+        env:
+          GITHUB_TOKEN:  ${{ secrets.GITHUB_TOKEN }}
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+        run: |
+          node /tmp/openreview/cli/dist/main.mjs review \
+            --url ${{ github.server_url }}/${{ github.repository }}/pull/${{ github.event.pull_request.number }} \
+            --submit --quiet
