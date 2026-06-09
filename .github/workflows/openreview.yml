@@ -3,6 +3,8 @@ name: OpenReview
 on:
   pull_request:
     types: [opened, synchronize, reopened, ready_for_review]
+  pull_request_review_comment:
+    types: [created]
 
 permissions:
   contents: read
@@ -12,8 +14,12 @@ concurrency:
   group: openreview-${{ github.event.pull_request.number }}
   cancel-in-progress: true
 
+env:
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: 'true'
+
 jobs:
   review:
+    if: github.event_name == 'pull_request'
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -25,8 +31,6 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: 24
-          cache: pnpm
-          cache-dependency-path: /tmp/openreview/pnpm-lock.yaml
 
       - name: Clone & build OpenReview
         run: |
