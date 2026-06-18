@@ -79,5 +79,41 @@ export const fibonacci = (n) => {
   return curr;
 };
 
+/**
+ * Calculates the Greatest Common Divisor (GCD) of two integers.
+ * @param {number} a 
+ * @param {number} b 
+ * @returns {number} The greatest common divisor.
+ */
+export const gcd = (a, b) => {
+  if (typeof a !== "number" || typeof b !== "number" || !Number.isInteger(a) || !Number.isInteger(b)) {
+    throw new Error("Inputs must be integers");
+  }
+  let x = Math.abs(a);
+  let y = Math.abs(b);
+  while (y) {
+    const temp = y;
+    y = x % y;
+    x = temp;
+  }
+  return x;
+};
+
+/**
+ * Calculates the Least Common Multiple (LCM) of two integers.
+ * @param {number} a 
+ * @param {number} b 
+ * @returns {number} The least common multiple.
+ */
+export const lcm = (a, b) => {
+  if (typeof a !== "number" || typeof b !== "number" || !Number.isInteger(a) || !Number.isInteger(b)) {
+    throw new Error("Inputs must be integers");
+  }
+  if (a === 0 || b === 0) return 0;
+  return Math.abs(a * b) / gcd(a, b);
+};
+
+
+
 
 
