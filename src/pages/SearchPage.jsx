@@ -47,6 +47,7 @@ const SearchPage = () => {
               placeholder="Search by first name"
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
+              data-testid="search-input"
             />
           </Col>
           <Col xs={12} md={6} lg={3} className="mb-3">
@@ -55,6 +56,7 @@ const SearchPage = () => {
               placeholder="Filter by age"
               value={ageFilter}
               onChange={(e) => setAgeFilter(e.target.value)}
+              data-testid="age-input"
             />
           </Col>
           <Col xs={12} md={6} lg={3} className="mb-3">
@@ -65,15 +67,16 @@ const SearchPage = () => {
                 setInstrumentFilter(selectedInstrument)
               }
               className="w-100"
+              data-testid="instrument-dropdown"
             >
-              <Dropdown.Item eventKey="all instruments">
+              <Dropdown.Item eventKey="all instruments" data-testid="instrument-all">
                 All Instruments
               </Dropdown.Item>
-              <Dropdown.Item eventKey="base drum">Base Drum</Dropdown.Item>
-              <Dropdown.Item eventKey="flute">Flute</Dropdown.Item>
-              <Dropdown.Item eventKey="side drum">Side Drum</Dropdown.Item>
-              <Dropdown.Item eventKey="side flute">Side Flute</Dropdown.Item>
-              <Dropdown.Item eventKey="small parts">Small Parts</Dropdown.Item>
+              <Dropdown.Item eventKey="base drum" data-testid="instrument-base-drum">Base Drum</Dropdown.Item>
+              <Dropdown.Item eventKey="flute" data-testid="instrument-flute">Flute</Dropdown.Item>
+              <Dropdown.Item eventKey="side drum" data-testid="instrument-side-drum">Side Drum</Dropdown.Item>
+              <Dropdown.Item eventKey="side flute" data-testid="instrument-side-flute">Side Flute</Dropdown.Item>
+              <Dropdown.Item eventKey="small parts" data-testid="instrument-small-parts">Small Parts</Dropdown.Item>
             </DropdownButton>
           </Col>
           <Col xs={12} md={6} lg={3} className="mb-3">
@@ -82,34 +85,35 @@ const SearchPage = () => {
               title={teamFilter || "Select Team"}
               onSelect={(selectedTeam) => setTeamFilter(selectedTeam)}
               className="w-100"
+              data-testid="team-dropdown"
             >
-              <Dropdown.Item eventKey="all teams">All Teams</Dropdown.Item>
-              <Dropdown.Item eventKey="satva">Satva</Dropdown.Item>
-              <Dropdown.Item eventKey="samarpan">Samarpan</Dropdown.Item>
-              <Dropdown.Item eventKey="sankalp">Sankalp</Dropdown.Item>
+              <Dropdown.Item eventKey="all teams" data-testid="team-all">All Teams</Dropdown.Item>
+              <Dropdown.Item eventKey="satva" data-testid="team-satva">Satva</Dropdown.Item>
+              <Dropdown.Item eventKey="samarpan" data-testid="team-samarpan">Samarpan</Dropdown.Item>
+              <Dropdown.Item eventKey="sankalp" data-testid="team-sankalp">Sankalp</Dropdown.Item>
             </DropdownButton>
           </Col>
           <Col xs={12} className="d-flex justify-content-end">
-            <Button onClick={handleSearch} variant="primary">
+            <Button onClick={handleSearch} variant="primary" data-testid="search-button">
               Search
             </Button>
           </Col>
         </Row>
       </Form>
       {loading && (
-        <div className="d-flex justify-content-center">
+        <div className="d-flex justify-content-center" data-testid="loading-spinner">
           <Spinner animation="border" role="status" />
         </div>
       )}
 
       {!loading && noResults && (
-        <Alert variant="warning" className="text-center">
+        <Alert variant="warning" className="text-center" data-testid="no-results-alert">
           No results found.
         </Alert>
       )}
 
       {!loading && students?.length > 0 && (
-        <Row className="mb-3 ms-1">Search Results: {students.length}</Row>
+        <Row className="mb-3 ms-1" data-testid="results-count">Search Results: {students.length}</Row>
       )}
 
       <Row>
