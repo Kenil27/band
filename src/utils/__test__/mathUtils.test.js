@@ -1,100 +1,104 @@
-import { add, calculateAverage, isPrime, factorial, fibonacci } from "../mathUtils";
+import test from 'node:test';
+import assert from 'node:assert/strict';
+import {
+  add,
+  calculateAverage,
+  isPrime,
+  factorial,
+  fibonacci,
+  gcd,
+  lcm,
+} from '../mathUtils.js';
 
-describe("mathUtils", () => {
-  describe("add", () => {
-    test("should correctly add two positive numbers", () => {
-      expect(add(2, 3)).toBe(5);
-    });
+test('add correctly handles positive, negative, and mixed numbers', () => {
+  assert.equal(add(2, 3), 5);
+  assert.equal(add(-1, -5), -6);
+  assert.equal(add(-1, 5), 4);
+});
 
-    test("should correctly add negative numbers", () => {
-      expect(add(-1, -5)).toBe(-6);
-    });
+test('calculateAverage returns the average for arrays and 0 for invalid inputs', () => {
+  assert.equal(calculateAverage([1, 2, 3, 4, 5]), 3);
+  assert.equal(calculateAverage([]), 0);
+  assert.equal(calculateAverage(null), 0);
+  assert.equal(calculateAverage(undefined), 0);
+});
 
-    test("should correctly add positive and negative numbers", () => {
-      expect(add(-1, 5)).toBe(4);
-    });
-  });
+test('isPrime identifies prime and non-prime values across edge cases', () => {
+  assert.equal(isPrime(2), true);
+  assert.equal(isPrime(3), true);
+  assert.equal(isPrime(5), true);
+  assert.equal(isPrime(7), true);
+  assert.equal(isPrime(11), true);
 
-  describe("calculateAverage", () => {
-    test("should return the correct average of an array of numbers", () => {
-      expect(calculateAverage([1, 2, 3, 4, 5])).toBe(3);
-    });
+  assert.equal(isPrime(0), false);
+  assert.equal(isPrime(1), false);
+  assert.equal(isPrime(4), false);
+  assert.equal(isPrime(9), false);
+  assert.equal(isPrime(-5), false);
+  assert.equal(isPrime(3.5), false);
+  assert.equal(isPrime('5'), false);
+  assert.equal(isPrime(null), false);
+  assert.equal(isPrime(25), false);
+});
 
-    test("should return 0 for an empty array", () => {
-      expect(calculateAverage([])).toBe(0);
-    });
+test('factorial returns expected values and throws for invalid input', () => {
+  assert.equal(factorial(0), 1);
+  assert.equal(factorial(1), 1);
+  assert.equal(factorial(5), 120);
 
-    test("should return 0 for non-array inputs", () => {
-      expect(calculateAverage(null)).toBe(0);
-      expect(calculateAverage(undefined)).toBe(0);
-    });
-  });
+  assert.throws(
+    () => factorial(-1),
+    /Input must be a non-negative integer/
+  );
+  assert.throws(
+    () => factorial(3.5),
+    /Input must be a non-negative integer/
+  );
+  assert.throws(
+    () => factorial('5'),
+    /Input must be a non-negative integer/
+  );
+});
 
-  describe("isPrime", () => {
-    test("should return true for prime numbers", () => {
-      expect(isPrime(2)).toBe(true);
-      expect(isPrime(3)).toBe(true);
-      expect(isPrime(5)).toBe(true);
-      expect(isPrime(7)).toBe(true);
-      expect(isPrime(11)).toBe(true);
-    });
+test('fibonacci returns expected sequence values and throws for invalid input', () => {
+  assert.equal(fibonacci(0), 0);
+  assert.equal(fibonacci(1), 1);
+  assert.equal(fibonacci(5), 5);
+  assert.equal(fibonacci(10), 55);
 
-    test("should return false for non-prime numbers", () => {
-      expect(isPrime(0)).toBe(false);
-      expect(isPrime(1)).toBe(false);
-      expect(isPrime(4)).toBe(false);
-      expect(isPrime(9)).toBe(false);
-    });
+  assert.throws(
+    () => fibonacci(-1),
+    /Input must be a non-negative integer/
+  );
+  assert.throws(
+    () => fibonacci(4.2),
+    /Input must be a non-negative integer/
+  );
+  assert.throws(
+    () => fibonacci('5'),
+    /Input must be a non-negative integer/
+  );
+});
 
-    test("should return false for negative numbers", () => {
-      expect(isPrime(-5)).toBe(false);
-    });
+test('gcd computes greatest common divisor for positive, negative, and zero values', () => {
+  assert.equal(gcd(54, 24), 6);
+  assert.equal(gcd(-54, 24), 6);
+  assert.equal(gcd(0, 5), 5);
+  assert.equal(gcd(0, 0), 0);
+});
 
-    test("should return false for non-integer or invalid types", () => {
-      expect(isPrime(3.5)).toBe(false);
-      expect(isPrime("5")).toBe(false);
-      expect(isPrime(null)).toBe(false);
-    });
-  });
+test('gcd throws when inputs are not integers', () => {
+  assert.throws(() => gcd(3.5, 2), /Inputs must be integers/);
+  assert.throws(() => gcd('6', 3), /Inputs must be integers/);
+});
 
-  describe("factorial", () => {
-    test("should calculate the factorial of 0 and 1 correctly", () => {
-      expect(factorial(0)).toBe(1);
-      expect(factorial(1)).toBe(1);
-    });
+test('lcm computes least common multiple and handles zero and negative values', () => {
+  assert.equal(lcm(4, 6), 12);
+  assert.equal(lcm(-4, 6), 12);
+  assert.equal(lcm(0, 6), 0);
+});
 
-    test("should calculate the factorial of positive integers correctly", () => {
-      expect(factorial(5)).toBe(120);
-    });
-
-    test("should throw an error for negative integers", () => {
-      expect(() => factorial(-1)).toThrow("Input must be a non-negative integer");
-    });
-
-    test("should throw an error for non-integers or invalid types", () => {
-      expect(() => factorial(3.5)).toThrow("Input must be a non-negative integer");
-      expect(() => factorial("5")).toThrow();
-    });
-  });
-
-  describe("fibonacci", () => {
-    test("should calculate the fibonacci number at index 0 and 1 correctly", () => {
-      expect(fibonacci(0)).toBe(0);
-      expect(fibonacci(1)).toBe(1);
-    });
-
-    test("should calculate the fibonacci numbers correctly", () => {
-      expect(fibonacci(5)).toBe(5);
-      expect(fibonacci(10)).toBe(55);
-    });
-
-    test("should throw an error for negative indexes", () => {
-      expect(() => fibonacci(-1)).toThrow("Input must be a non-negative integer");
-    });
-
-    test("should throw an error for non-integers or invalid types", () => {
-      expect(() => fibonacci(4.2)).toThrow("Input must be a non-negative integer");
-      expect(() => fibonacci("5")).toThrow();
-    });
-  });
+test('lcm throws when inputs are not integers', () => {
+  assert.throws(() => lcm(2.5, 5), /Inputs must be integers/);
+  assert.throws(() => lcm(2, '5'), /Inputs must be integers/);
 });
