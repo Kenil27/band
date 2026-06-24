@@ -129,3 +129,18 @@ export const clamp = (val, min, max) => {
   }
   return Math.min(Math.max(val, min), max);
 };
+
+/**
+ * Rounds a number to a specified number of decimal places.
+ * @param {number} value 
+ * @param {number} [decimals=0] 
+ * @returns {number}
+ */
+export const round = (value, decimals = 0) => {
+  if (typeof value !== "number" || typeof decimals !== "number" || !Number.isInteger(decimals) || decimals < 0) {
+    throw new Error("Invalid inputs: value must be a number and decimals must be a non-negative integer");
+  }
+  const factor = Math.pow(10, decimals);
+  return Math.round(value * factor) / factor;
+};
+
