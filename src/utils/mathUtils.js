@@ -113,3 +113,19 @@ export const lcm = (a, b) => {
   return Math.abs(a * b) / gcd(a, b);
 };
 
+/**
+ * Clamps a number between a minimum and maximum value.
+ * @param {number} val 
+ * @param {number} min 
+ * @param {number} max 
+ * @returns {number} The clamped value.
+ */
+export const clamp = (val, min, max) => {
+  if (typeof val !== "number" || typeof min !== "number" || typeof max !== "number") {
+    throw new Error("All inputs must be numbers");
+  }
+  if (min > max) {
+    throw new Error("Min value cannot be greater than max value");
+  }
+  return Math.min(Math.max(val, min), max);
+};
