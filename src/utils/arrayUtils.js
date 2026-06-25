@@ -68,3 +68,31 @@ export const chunk = (arr, size) => {
   }
   return result;
 };
+
+/**
+ * Returns the intersection of two arrays (elements present in both).
+ * @param {Array} a
+ * @param {Array} b
+ * @returns {Array}
+ */
+export const intersection = (a, b) => {
+  if (!Array.isArray(a) || !Array.isArray(b)) {
+    throw new Error("Both inputs must be arrays");
+  }
+  const setB = new Set(b);
+  return a.filter((item) => setB.has(item));
+};
+
+/**
+ * Returns elements that are in the first array but not in the second (difference).
+ * @param {Array} a
+ * @param {Array} b
+ * @returns {Array}
+ */
+export const difference = (a, b) => {
+  if (!Array.isArray(a) || !Array.isArray(b)) {
+    throw new Error("Both inputs must be arrays");
+  }
+  const setB = new Set(b);
+  return a.filter((item) => !setB.has(item));
+};
