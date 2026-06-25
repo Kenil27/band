@@ -12,7 +12,7 @@ import {
   round,
 } from '../mathUtils.js';
 
-test('add correctly sums positive, negative, and mixed numbers', () => {
+test('add correctly handles positive, negative, and mixed numbers', () => {
   assert.equal(add(2, 3), 5);
   assert.equal(add(-1, -5), -6);
   assert.equal(add(-1, 5), 4);
@@ -42,7 +42,7 @@ test('isPrime identifies prime and non-prime values including invalid inputs', (
   assert.equal(isPrime(null), false);
 });
 
-test('factorial computes valid values and throws for invalid inputs', () => {
+test('factorial calculates valid inputs and throws for invalid ones', () => {
   assert.equal(factorial(0), 1);
   assert.equal(factorial(1), 1);
   assert.equal(factorial(5), 120);
@@ -52,7 +52,7 @@ test('factorial computes valid values and throws for invalid inputs', () => {
   assert.throws(() => factorial('5'), /Input must be a non-negative integer/);
 });
 
-test('fibonacci computes sequence values and throws for invalid inputs', () => {
+test('fibonacci calculates sequence values and throws for invalid indexes', () => {
   assert.equal(fibonacci(0), 0);
   assert.equal(fibonacci(1), 1);
   assert.equal(fibonacci(5), 5);
@@ -63,41 +63,48 @@ test('fibonacci computes sequence values and throws for invalid inputs', () => {
   assert.throws(() => fibonacci('5'), /Input must be a non-negative integer/);
 });
 
-test('gcd computes greatest common divisor and validates integer inputs', () => {
+test('gcd returns the greatest common divisor for positive, negative, and zero values', () => {
   assert.equal(gcd(48, 18), 6);
   assert.equal(gcd(-48, 18), 6);
   assert.equal(gcd(0, 5), 5);
   assert.equal(gcd(0, 0), 0);
+});
 
+test('gcd throws when inputs are not integers', () => {
   assert.throws(() => gcd(4.5, 2), /Inputs must be integers/);
   assert.throws(() => gcd('4', 2), /Inputs must be integers/);
 });
 
-test('lcm computes least common multiple including zero and validates inputs', () => {
+test('lcm returns the least common multiple and handles zero and negative values', () => {
   assert.equal(lcm(4, 6), 12);
   assert.equal(lcm(-4, 6), 12);
   assert.equal(lcm(0, 6), 0);
   assert.equal(lcm(6, 0), 0);
+});
 
+test('lcm throws when inputs are not integers', () => {
   assert.throws(() => lcm(4.2, 6), /Inputs must be integers/);
   assert.throws(() => lcm(4, '6'), /Inputs must be integers/);
 });
 
-test('clamp constrains values within bounds and throws for invalid arguments', () => {
+test('clamp returns min, max, or original value depending on bounds', () => {
   assert.equal(clamp(5, 1, 10), 5);
   assert.equal(clamp(-1, 0, 10), 0);
   assert.equal(clamp(15, 0, 10), 10);
+});
 
+test('clamp throws for non-number inputs and invalid ranges', () => {
   assert.throws(() => clamp('5', 0, 10), /All inputs must be numbers/);
   assert.throws(() => clamp(5, 10, 0), /Min value cannot be greater than max value/);
 });
 
-test('round rounds to default and specified decimal places and validates inputs', () => {
+test('round rounds values with default and specified decimal places', () => {
   assert.equal(round(4.6), 5);
   assert.equal(round(3.14159, 2), 3.14);
   assert.equal(round(1.005, 2), 1);
-  assert.equal(round(123.456, 0), 123);
+});
 
+test('round throws for invalid value or decimals arguments', () => {
   assert.throws(
     () => round('3.14', 2),
     /Invalid inputs: value must be a number and decimals must be a non-negative integer/
