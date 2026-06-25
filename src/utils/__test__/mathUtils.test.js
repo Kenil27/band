@@ -12,13 +12,13 @@ import {
   round,
 } from '../mathUtils.js';
 
-test('add correctly sums positive, negative, and mixed numbers', () => {
+test('add correctly handles positive, negative, and mixed numbers', () => {
   assert.equal(add(2, 3), 5);
   assert.equal(add(-1, -5), -6);
   assert.equal(add(-1, 5), 4);
 });
 
-test('calculateAverage returns average for arrays and 0 for empty or invalid inputs', () => {
+test('calculateAverage returns averages and handles empty or invalid inputs', () => {
   assert.equal(calculateAverage([1, 2, 3, 4, 5]), 3);
   assert.equal(calculateAverage([]), 0);
   assert.equal(calculateAverage(null), 0);
@@ -42,43 +42,25 @@ test('isPrime identifies prime and non-prime values including invalid inputs', (
   assert.equal(isPrime(null), false);
 });
 
-test('factorial calculates valid inputs and throws for invalid ones', () => {
+test('factorial computes valid values and throws for invalid inputs', () => {
   assert.equal(factorial(0), 1);
   assert.equal(factorial(1), 1);
   assert.equal(factorial(5), 120);
 
-  assert.throws(
-    () => factorial(-1),
-    /Input must be a non-negative integer/
-  );
-  assert.throws(
-    () => factorial(3.5),
-    /Input must be a non-negative integer/
-  );
-  assert.throws(
-    () => factorial('5'),
-    /Input must be a non-negative integer/
-  );
+  assert.throws(() => factorial(-1), /Input must be a non-negative integer/);
+  assert.throws(() => factorial(3.5), /Input must be a non-negative integer/);
+  assert.throws(() => factorial('5'), /Input must be a non-negative integer/);
 });
 
-test('fibonacci calculates sequence values and throws for invalid indexes', () => {
+test('fibonacci computes sequence values and throws for invalid inputs', () => {
   assert.equal(fibonacci(0), 0);
   assert.equal(fibonacci(1), 1);
   assert.equal(fibonacci(5), 5);
   assert.equal(fibonacci(10), 55);
 
-  assert.throws(
-    () => fibonacci(-1),
-    /Input must be a non-negative integer/
-  );
-  assert.throws(
-    () => fibonacci(4.2),
-    /Input must be a non-negative integer/
-  );
-  assert.throws(
-    () => fibonacci('5'),
-    /Input must be a non-negative integer/
-  );
+  assert.throws(() => fibonacci(-1), /Input must be a non-negative integer/);
+  assert.throws(() => fibonacci(4.2), /Input must be a non-negative integer/);
+  assert.throws(() => fibonacci('5'), /Input must be a non-negative integer/);
 });
 
 test('gcd returns the greatest common divisor for positive, negative, and zero values', () => {
@@ -88,21 +70,21 @@ test('gcd returns the greatest common divisor for positive, negative, and zero v
   assert.equal(gcd(0, 0), 0);
 });
 
-test('gcd throws when either input is not an integer', () => {
+test('gcd throws when inputs are not integers', () => {
   assert.throws(() => gcd(4.5, 2), /Inputs must be integers/);
   assert.throws(() => gcd('4', 2), /Inputs must be integers/);
 });
 
-test('lcm returns the least common multiple and handles zero and negative inputs', () => {
+test('lcm returns the least common multiple and handles zero and negative values', () => {
   assert.equal(lcm(4, 6), 12);
   assert.equal(lcm(-4, 6), 12);
   assert.equal(lcm(0, 6), 0);
   assert.equal(lcm(6, 0), 0);
 });
 
-test('lcm throws when either input is not an integer', () => {
+test('lcm throws when inputs are not integers', () => {
   assert.throws(() => lcm(4.2, 6), /Inputs must be integers/);
-  assert.throws(() => lcm(4, null), /Inputs must be integers/);
+  assert.throws(() => lcm(4, '6'), /Inputs must be integers/);
 });
 
 test('clamp returns min, max, or original value depending on bounds', () => {
@@ -111,8 +93,9 @@ test('clamp returns min, max, or original value depending on bounds', () => {
   assert.equal(clamp(15, 0, 10), 10);
 });
 
-test('clamp throws for non-number inputs and invalid min/max ordering', () => {
+test('clamp throws for non-number inputs and invalid ranges', () => {
   assert.throws(() => clamp('5', 0, 10), /All inputs must be numbers/);
+  assert.throws(() => clamp(5, '0', 10), /All inputs must be numbers/);
   assert.throws(() => clamp(5, 10, 0), /Min value cannot be greater than max value/);
 });
 
