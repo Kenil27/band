@@ -48,3 +48,23 @@ export const groupBy = (arr, key) => {
     return result;
   }, {});
 };
+
+/**
+ * Chunks an array into smaller arrays of the given size.
+ * @param {Array} arr
+ * @param {number} size
+ * @returns {Array[]}
+ */
+export const chunk = (arr, size) => {
+  if (!Array.isArray(arr)) {
+    throw new Error("Input must be an array");
+  }
+  if (typeof size !== "number" || !Number.isInteger(size) || size <= 0) {
+    throw new Error("Size must be a positive integer");
+  }
+  const result = [];
+  for (let i = 0; i < arr.length; i += size) {
+    result.push(arr.slice(i, i + size));
+  }
+  return result;
+};
