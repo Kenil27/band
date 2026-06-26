@@ -1,5 +1,6 @@
 import React from "react";
 import { Card } from "react-bootstrap";
+import { extractDriveId } from "../utils/match";
 
 const StudentCard = ({ student }) => {
   const {
@@ -15,9 +16,8 @@ const StudentCard = ({ student }) => {
   const age = new Date().getFullYear() - birthYear;
 
   const getDriveImageUrl = (driveLink) => {
-    if (driveLink === "") return "";
-    const fileId = driveLink.match(/id=([a-zA-Z0-9_-]+)/)[1];
-    return `https://drive.google.com/thumbnail?id=${fileId}`;
+    const fileId = extractDriveId(driveLink);
+    return fileId ? `https://drive.google.com/thumbnail?id=${fileId}` : "";
   };
 
   return (
