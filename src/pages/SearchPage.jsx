@@ -20,20 +20,28 @@ const SearchPage = () => {
   const [students, setStudents] = useState([]);
   const [loading, setLoading] = useState(false);
   const [noResults, setNoResults] = useState(false);
+  const [error, setError] = useState(null);
 
   const handleSearch = async () => {
     setLoading(true);
     setNoResults(false);
-    const results = await searchStudents(
-      searchTerm.toLowerCase(),
-      teamFilter === "all teams" ? "" : teamFilter,
-      instrumentFilter === "all instruments" ? "" : instrumentFilter,
-      ageFilter
-    );
-    setStudents(results);
-    setLoading(false);
-    if (results?.length === 0) {
-      setNoResults(true);
+    setError(null);
+    try {
+      const results = await searchStudents(
+        (searchTerm || "").toLowerCase(),
+        teamFilter === "all teams" ? "" : teamFilter,
+        instrumentFilter === "all instruments" ? "" : instrumentFilter,
+        ageFilter
+      );
+      setStudents(results);
+      if (results?.length === 0) {
+        setNoResults(true);
+      }
+    } catch (err) {
+      console.error("Search failed:", err);
+      setError("Failed to fetch students. Please try again.");
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -100,6 +108,12 @@ const SearchPage = () => {
         <div className="d-flex justify-content-center">
           <Spinner animation="border" role="status" />
         </div>
+      )}
+
+      {!loading && error && (
+        <Alert variant="danger" className="text-center">
+          {error}
+        </Alert>
       )}
 
       {!loading && noResults && (
