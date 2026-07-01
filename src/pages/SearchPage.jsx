@@ -38,6 +38,7 @@ const SearchPage = () => {
         setNoResults(true);
       }
     } catch (err) {
+      console.error("Search failed:", err);
       setError("Failed to fetch students. Please try again.");
     } finally {
       setLoading(false);
