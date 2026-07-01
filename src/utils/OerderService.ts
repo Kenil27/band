@@ -177,6 +177,12 @@ export class OrderService {
     return "Regular";
   }
 
+  // Check if order is eligible for a free gift (subtotal >= 2000)
+  isEligibleForFreeGift(order: Order): boolean {
+    const subtotal = this.calculateSubtotal(order.items);
+    return subtotal >= 2000;
+  }
+
   // Private validation
   private validateOrder(order: Order): void {
     if (!order.customerId) {
